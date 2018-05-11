@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="appReddit">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+  <link rel="manifest" href="manifest.json">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body ng-controller="RedditController">
+  <ion-pane>
+    <ion-header-bar class="bar-stable">
+      <h1 class="title" style="text-align: center">Rodrigo - Reddit</h1>
+    </ion-header-bar>
+    <ion-content>
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="loadLastPosts()">
+      </ion-refresher>
+      <div class="list">
+        <a class="item item-thumbnail-left" ng-repeat="post in posts" href="{{post.data.url}}" target="_blank">
+          <img ng-src="{{post.data.thumbnail}}" ng-if="post.data.thumbnail.indexOf('http')=== 0">
+          <h2 class="post-title"> {{post.data.title}} </h2>
+          <p>
+            <span am-time-ago="post.data.created_utc | amFromUnix"></span>
+            - {{post.data.domain}}
+          </p> 
+        </a>
+      </div>
+      <ion-infinite-scroll on-infinite="loadNewPosts()" distance="1%">
+      </ion-infinite-scroll>
+    </ion-content>
+  </ion-pane>
+
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="cordova.js"></script>
+  <script src="js/app.js"></script>
+  <script src="lib/moment/moment.js"></script>
+  <script src="lib/angular-moment/angular-moment.js"></script>
+
+</body>
+
+</html>
